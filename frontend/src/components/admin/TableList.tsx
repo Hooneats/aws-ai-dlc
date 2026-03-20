@@ -26,7 +26,7 @@ export function TableList({ tables, selectedId, onSelect }: Props) {
           <Typography variant="subtitle2" sx={{ px: 2, py: 1, bgcolor: 'grey.100' }}>비활성 ({inactive.length})</Typography>
           <List dense disablePadding>
             {inactive.map((t) => (
-              <ListItemButton key={t.id} selected={selectedId === t.id} onClick={() => onSelect(t.id)} sx={{ opacity: 0.5 }}>
+              <ListItemButton key={t.id} selected={selectedId === t.id} onClick={() => onSelect(t.id)} data-testid={`table-item-${t.tableNo}`} sx={{ opacity: 0.5 }}>
                 <ListItemText primary={<Typography variant="body2">테이블 {t.tableNo}</Typography>} />
               </ListItemButton>
             ))}
