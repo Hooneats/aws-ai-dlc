@@ -2,11 +2,14 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 import { Store } from '../store/entities/store.entity';
 import { Admin } from '../auth/entities/admin.entity';
 import { Category } from '../category/entities/category.entity';
 import { Menu } from '../menu/entities/menu.entity';
 import { TableEntity } from '../table/entities/table.entity';
+import { OrderHistory } from '../order/entities/order-history.entity';
+import { OrderHistoryItem } from '../order/entities/order-history-item.entity';
 
 @Injectable()
 export class SeedService implements OnModuleInit {
@@ -16,6 +19,8 @@ export class SeedService implements OnModuleInit {
     @InjectRepository(Category) private readonly categoryRepo: Repository<Category>,
     @InjectRepository(Menu) private readonly menuRepo: Repository<Menu>,
     @InjectRepository(TableEntity) private readonly tableRepo: Repository<TableEntity>,
+    @InjectRepository(OrderHistory) private readonly historyRepo: Repository<OrderHistory>,
+    @InjectRepository(OrderHistoryItem) private readonly historyItemRepo: Repository<OrderHistoryItem>,
   ) {}
 
   async onModuleInit() { await this.seed(); }
@@ -91,6 +96,49 @@ export class SeedService implements OnModuleInit {
     ];
     for (const s of services) {
       await this.menuRepo.save({ storeId: sid, categoryId: catService.id, name: s.name, price: s.price });
+    }
+
+    // 통계 더미 데이터 (최근 30일)
+    const tables = await this.tableRepo.find({ where: { storeId: sid } });
+    const menuNames = ['김치찌개', '된장찌개', '비빔밥', '불고기', '냉면'];
+    const menuPrices = [9000, 8000, 10000, 13000, 11000];
+
+    for (let i = 1; i <= 30; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dailyCount = 3 + Math.floor(Math.random() * 3); // 3~5건/일
+
+      for (let j = 0; j < dailyCount; j++) {
+        const table = tables[Math.floor(Math.random() * tables.length)];
+        const qty = 1 + Math.floor(Math.random() * 3);
+        const menuIdx = Math.floor(Math.random() * menuNames.length);
+        const unitPrice = menuPrices[menuIdx];
+        const totalAmount = unitPrice * qty;
+
+        const settledAt = new Date(d);
+        settledAt.setHours(10 + Math.floor(Math.random() * 10), Math.floor(Math.random() * 60));
+        const createdAt = new Date(settledAt);
+        createdAt.setMinutes(createdAt.getMinutes() - 10 - Math.floor(Math.random() * 20));
+
+        const history = await this.historyRepo.save({
+          tableId: table.id,
+          sessionId: uuidv4(),
+          totalAmount,
+          orderCount: 1,
+          settledAt,
+          createdAt,
+        });
+
+        await this.historyItemRepo.save({
+          historyId: history.id,
+          orderId: history.id,
+          status: 'COMPLETED' as const,
+          totalAmount,
+          memo: null,
+          items: [{ menuName: menuNames[menuIdx], quantity: qty, unitPrice, originalPrice: unitPrice, discountRate: 0 }],
+          orderedAt: createdAt,
+        });
+      }
     }
   }
 }
