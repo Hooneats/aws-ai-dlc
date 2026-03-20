@@ -24,15 +24,18 @@ function LoginPage() {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-      <Paper sx={{ p: 4, maxWidth: 400, width: '100%' }}>
-        <Typography variant="h5" gutterBottom textAlign="center">관리자 로그인</Typography>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', bgcolor: '#f5f5f7' }}>
+      <Paper sx={{ p: 5, maxWidth: 380, width: '100%', textAlign: 'center' }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h5" sx={{ color: '#1d1d1f', mb: 0.5 }}>관리자 로그인</Typography>
+          <Typography variant="body2" sx={{ color: '#86868b' }}>테이블오더 관리 시스템</Typography>
+        </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField fullWidth label="매장 코드" margin="normal" {...register('storeCode', { required: '필수' })} error={!!errors.storeCode} data-testid="admin-login-store-code" />
           <TextField fullWidth label="사용자명" margin="normal" {...register('username', { required: '필수' })} error={!!errors.username} data-testid="admin-login-username" />
           <TextField fullWidth label="비밀번호" type="password" margin="normal" {...register('password', { required: '필수' })} error={!!errors.password} data-testid="admin-login-password" />
           {error && <Typography color="error" variant="body2" sx={{ mt: 1 }}>{error}</Typography>}
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }} data-testid="admin-login-submit">로그인</Button>
+          <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, py: 1.5, bgcolor: '#0071e3', '&:hover': { bgcolor: '#0077ed' } }} data-testid="admin-login-submit">로그인</Button>
         </form>
       </Paper>
     </Box>

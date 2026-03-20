@@ -24,14 +24,17 @@ function TableSetupPage() {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2 }}>
-      <Paper sx={{ p: 4, maxWidth: 400, width: '100%' }}>
-        <Typography variant="h5" gutterBottom textAlign="center">테이블 설정</Typography>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', bgcolor: '#f5f5f7', p: 2 }}>
+      <Paper sx={{ p: 5, maxWidth: 380, width: '100%', textAlign: 'center' }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h5" sx={{ color: '#1d1d1f', mb: 0.5 }}>테이블 설정</Typography>
+          <Typography variant="body2" sx={{ color: '#86868b' }}>매장 코드와 테이블 번호를 입력하세요</Typography>
+        </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField fullWidth label="매장 코드" margin="normal" {...register('storeCode', { required: '매장 코드를 입력해주세요' })} error={!!errors.storeCode} helperText={errors.storeCode?.message} data-testid="table-setup-store-code" />
           <TextField fullWidth label="테이블 번호" type="number" margin="normal" {...register('tableNo', { required: '테이블 번호를 입력해주세요', min: { value: 1, message: '1 이상 입력' } })} error={!!errors.tableNo} helperText={errors.tableNo?.message} data-testid="table-setup-table-no" />
           {error && <Typography color="error" variant="body2" sx={{ mt: 1 }}>{error}</Typography>}
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }} data-testid="table-setup-submit">시작하기</Button>
+          <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, py: 1.5, bgcolor: '#0071e3', '&:hover': { bgcolor: '#0077ed' } }} data-testid="table-setup-submit">시작하기</Button>
         </form>
       </Paper>
     </Box>

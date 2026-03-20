@@ -12,15 +12,18 @@ export function ImageWithFallback({ src, alt, height = 140 }: Props) {
 
   if (!fullSrc || error) {
     return (
-      <Box sx={{ height, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.100' }}>
-        <RestaurantIcon sx={{ fontSize: 48, color: 'grey.400' }} />
+      <Box sx={{
+        height, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: 'linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%)',
+      }}>
+        <RestaurantIcon sx={{ fontSize: 40, color: '#c7c7cc' }} />
       </Box>
     );
   }
 
   return (
     <Box sx={{ height, position: 'relative', overflow: 'hidden' }}>
-      {!loaded && <Skeleton variant="rectangular" height={height} />}
+      {!loaded && <Skeleton variant="rectangular" height={height} sx={{ bgcolor: '#f5f5f7' }} />}
       <img
         src={fullSrc} alt={alt} loading="lazy"
         onLoad={() => setLoaded(true)} onError={() => setError(true)}

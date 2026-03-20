@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { Box, Typography, CircularProgress } from '@mui/material';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import { useQuery } from '@tanstack/react-query';
 import { getOrdersBySession } from '@/api/orders';
 import { useAuthStore } from '@/stores/authStore';
@@ -21,12 +22,15 @@ function OrderHistoryPage() {
 
   return (
     <CustomerLayout>
-      <Box sx={{ p: 2, maxWidth: 600, mx: 'auto' }}>
-        <Typography variant="h6" gutterBottom>주문 내역</Typography>
+      <Box sx={{ p: 2.5, maxWidth: 600, mx: 'auto' }}>
+        <Typography variant="h6" sx={{ mb: 2, color: '#1d1d1f' }}>주문 내역</Typography>
         {isLoading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}><CircularProgress /></Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', pt: 6 }}><CircularProgress sx={{ color: '#0071e3' }} /></Box>
         ) : visibleOrders.length === 0 ? (
-          <Typography color="text.secondary" sx={{ py: 4, textAlign: 'center' }}>주문 내역이 없습니다</Typography>
+          <Box sx={{ py: 8, textAlign: 'center' }}>
+            <ReceiptLongOutlinedIcon sx={{ fontSize: 48, color: '#c7c7cc', mb: 1 }} />
+            <Typography sx={{ color: '#86868b' }}>주문 내역이 없습니다</Typography>
+          </Box>
         ) : (
           visibleOrders.map((order) => <OrderCard key={order.id} order={order} isCustomer />)
         )}
