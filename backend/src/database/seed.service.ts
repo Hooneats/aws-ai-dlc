@@ -103,7 +103,7 @@ export class SeedService implements OnModuleInit {
     const menuNames = ['김치찌개', '된장찌개', '비빔밥', '불고기', '냉면'];
     const menuPrices = [9000, 8000, 10000, 13000, 11000];
 
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 0; i <= 30; i++) {
       const d = new Date();
       d.setDate(d.getDate() - i);
       const dailyCount = 3 + Math.floor(Math.random() * 3); // 3~5건/일
