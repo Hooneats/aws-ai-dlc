@@ -17,10 +17,10 @@ export class TableEntity {
   @Column()
   tableNo: number;
 
-  @Column({ length: 36, nullable: true })
+  @Column({ type: 'varchar', length: 36, nullable: true })
   sessionId: string | null;
 
-  @Column({ nullable: true })
+  @Column({ type: 'datetime', nullable: true })
   sessionStartedAt: Date | null;
 
   @CreateDateColumn()

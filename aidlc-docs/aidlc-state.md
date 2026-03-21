@@ -35,7 +35,7 @@
 - [x] CONSTRUCTION - NFR Design (EXECUTE, frontend)
 - [ ] CONSTRUCTION - Infrastructure Design (SKIP - 기존 Docker Compose 활용)
 - [x] CONSTRUCTION - Code Generation (EXECUTE, frontend)
-- [ ] CONSTRUCTION - Build and Test (EXECUTE, frontend)
+- [x] CONSTRUCTION - Build and Test (EXECUTE, frontend)
 
 ## User Preferences
 - **TDD 선택**: 향후 Code Generation에서 Standard 방식 사용 (TDD 미선택)

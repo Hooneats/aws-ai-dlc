@@ -17,21 +17,28 @@ function CartPage() {
   return (
     <CustomerLayout>
       <Box sx={{ p: 2, maxWidth: 600, mx: 'auto' }}>
-        <Typography variant="h6" gutterBottom>장바구니</Typography>
+        <Typography variant="h5" sx={{ mb: 2, fontSize: '1.5rem' }}>장바구니</Typography>
         {items.length === 0 ? (
-          <Typography color="text.secondary" sx={{ py: 4, textAlign: 'center' }}>장바구니가 비어있습니다</Typography>
+          <Box sx={{ py: 8, textAlign: 'center' }}>
+            <Typography sx={{ color: '#86868b', fontSize: '1rem' }}>장바구니가 비어있습니다</Typography>
+            <Button onClick={() => navigate({ to: `/table/${tableNo}/menu` })} sx={{ mt: 2, color: '#0071e3' }}>메뉴 보러가기</Button>
+          </Box>
         ) : (
           <>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: 2, border: '1px solid rgba(0,0,0,0.06)' }}>
               {items.map((item) => (
                 <CartItemRow key={item.menuId} item={item} onQuantityChange={updateQuantity} onRemove={removeItem} />
               ))}
             </Paper>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-              <Typography variant="h6">총 {totalAmount.toLocaleString()}원</Typography>
-              <Button variant="text" color="error" onClick={() => setClearOpen(true)} data-testid="cart-clear">비우기</Button>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3, px: 0.5 }}>
+              <Typography variant="h6" fontWeight={700}>{totalAmount.toLocaleString()}원</Typography>
+              <Button variant="text" onClick={() => setClearOpen(true)} data-testid="cart-clear" sx={{ color: '#86868b', fontSize: '0.8rem' }}>전체 삭제</Button>
             </Box>
-            <Button variant="contained" fullWidth sx={{ mt: 2 }} onClick={() => navigate({ to: `/table/${tableNo}/order` })} data-testid="cart-order">주문하기</Button>
+            <Button
+              variant="contained" fullWidth data-testid="cart-order"
+              onClick={() => navigate({ to: `/table/${tableNo}/order` })}
+              sx={{ mt: 2, py: 1.5, bgcolor: '#0071e3', fontSize: '1rem', fontWeight: 600, '&:hover': { bgcolor: '#0077ed' } }}
+            >주문하기</Button>
           </>
         )}
       </Box>

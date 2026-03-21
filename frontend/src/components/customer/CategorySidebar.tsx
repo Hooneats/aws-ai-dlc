@@ -1,5 +1,5 @@
-import { List, ListItemButton, ListItemText, Typography } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
+import { Box, ButtonBase, Typography } from '@mui/material';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import type { Category } from '@/types';
 
 interface Props {
@@ -10,16 +10,41 @@ interface Props {
 
 export function CategorySidebar({ categories, selectedId, onSelect }: Props) {
   return (
-    <List sx={{ width: 120, minWidth: 120, borderRight: 1, borderColor: 'divider', bgcolor: 'background.paper', overflowY: 'auto' }}>
-      <ListItemButton selected={selectedId === 'recommended'} onClick={() => onSelect('recommended')} data-testid="category-recommended">
-        <StarIcon sx={{ mr: 0.5, fontSize: 18, color: 'warning.main' }} />
-        <ListItemText primary={<Typography variant="body2" fontWeight="bold">추천</Typography>} />
-      </ListItemButton>
+    <Box sx={{
+      display: 'flex', gap: 1, px: 2, py: 1.5,
+      overflowX: 'auto', flexShrink: 0,
+      '&::-webkit-scrollbar': { display: 'none' },
+      scrollbarWidth: 'none',
+    }}>
+      <ButtonBase
+        onClick={() => onSelect('recommended')}
+        data-testid="category-recommended"
+        sx={{
+          px: 2, py: 1, borderRadius: 980, flexShrink: 0,
+          display: 'flex', alignItems: 'center', gap: 0.5,
+          bgcolor: selectedId === 'recommended' ? '#1d1d1f' : 'rgba(0,0,0,0.04)',
+          color: selectedId === 'recommended' ? '#fff' : '#1d1d1f',
+          transition: 'all 0.2s ease',
+        }}
+      >
+        <StarRoundedIcon sx={{ fontSize: 16, color: selectedId === 'recommended' ? '#ffd60a' : '#86868b' }} />
+        <Typography variant="body2" fontWeight={600} sx={{ whiteSpace: 'nowrap', fontSize: '0.8rem' }}>추천</Typography>
+      </ButtonBase>
       {categories.map((c) => (
-        <ListItemButton key={c.id} selected={selectedId === c.id} onClick={() => onSelect(c.id)} data-testid={`category-${c.id}`}>
-          <ListItemText primary={<Typography variant="body2">{c.name}</Typography>} />
-        </ListItemButton>
+        <ButtonBase
+          key={c.id}
+          onClick={() => onSelect(c.id)}
+          data-testid={`category-${c.id}`}
+          sx={{
+            px: 2, py: 1, borderRadius: 980, flexShrink: 0,
+            bgcolor: selectedId === c.id ? '#1d1d1f' : 'rgba(0,0,0,0.04)',
+            color: selectedId === c.id ? '#fff' : '#1d1d1f',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          <Typography variant="body2" fontWeight={selectedId === c.id ? 600 : 400} sx={{ whiteSpace: 'nowrap', fontSize: '0.8rem' }}>{c.name}</Typography>
+        </ButtonBase>
       ))}
-    </List>
+    </Box>
   );
 }

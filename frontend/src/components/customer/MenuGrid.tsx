@@ -6,7 +6,7 @@ interface Props { menus: Menu[]; onAddToCart: (menu: Menu) => void; onServiceCal
 
 export function MenuGrid({ menus, onAddToCart, onServiceCall, isService }: Props) {
   return (
-    <Grid container spacing={1.5} sx={{ p: 1.5 }}>
+    <Grid container spacing={2} sx={{ p: 2 }}>
       {menus.map((m) => (
         <Grid key={m.id} size={{ xs: 6, sm: 4, md: 3 }}>
           <MenuCard menu={m} onAddToCart={onAddToCart} onServiceCall={onServiceCall} isService={isService} />

@@ -30,7 +30,7 @@ export class Menu {
   @Column({ type: 'text', nullable: true })
   description: string | null;
 
-  @Column({ length: 500, nullable: true })
+  @Column({ type: 'varchar', length: 500, nullable: true })
   imageUrl: string | null;
 
   @Column({ default: 0 })

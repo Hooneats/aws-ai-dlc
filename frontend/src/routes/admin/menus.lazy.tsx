@@ -29,6 +29,8 @@ function MenuManagementPage() {
 
   const createMut = useMutation({ mutationFn: (d: CreateMenuForm) => createMenu(d), onSuccess: () => { invalidate(); setFormOpen(false); } });
   const updateMut = useMutation({ mutationFn: ({ id, data }: { id: number; data: Partial<CreateMenuForm> }) => updateMenu(id, data), onSuccess: () => { invalidate(); setEditMenu(null); } });
+  const recommendMut = useMutation({ mutationFn: ({ id, v }: { id: number; v: boolean }) => setRecommended(id, v), onSuccess: invalidate });
+  const soldOutMut = useMutation({ mutationFn: ({ id, v }: { id: number; v: boolean }) => setSoldOut(id, v), onSuccess: invalidate });
   const deleteMut = useMutation({ mutationFn: (id: number) => deleteMenu(id), onSuccess: invalidate });
 
   const handleSubmit = (data: CreateMenuForm) => {
@@ -66,7 +68,7 @@ function MenuManagementPage() {
                 <TableCell>{m.name}</TableCell>
                 <TableCell>{getCategoryName(m.categoryId)}</TableCell>
                 <TableCell>{m.price.toLocaleString()}원</TableCell>
-                <TableCell><Switch size="small" checked={m.isRecommended} onChange={(_, v) => { setRecommended(m.id, v).then(invalidate); }} data-testid={`rec-${m.id}`} /></TableCell>
+                <TableCell><Switch size="small" checked={m.isRecommended} onChange={(_, v) => recommendMut.mutate({ id: m.id, v })} data-testid={`rec-${m.id}`} /></TableCell>
                 <TableCell>
                   {discountEdit?.id === m.id ? (
                     <TextField size="small" sx={{ width: 60 }} value={discountEdit.rate} onChange={(e) => setDiscountEdit({ id: m.id, rate: e.target.value })} onBlur={() => handleDiscountSave(m.id, discountEdit.rate)} onKeyDown={(e) => e.key === 'Enter' && handleDiscountSave(m.id, discountEdit.rate)} autoFocus />
@@ -74,7 +76,7 @@ function MenuManagementPage() {
                     <Chip label={`${m.discountRate}%`} size="small" onClick={() => setDiscountEdit({ id: m.id, rate: String(m.discountRate) })} />
                   )}
                 </TableCell>
-                <TableCell><Switch size="small" checked={m.isSoldOut} onChange={(_, v) => { setSoldOut(m.id, v).then(invalidate); }} data-testid={`soldout-${m.id}`} /></TableCell>
+                <TableCell><Switch size="small" checked={m.isSoldOut} onChange={(_, v) => soldOutMut.mutate({ id: m.id, v })} data-testid={`soldout-${m.id}`} /></TableCell>
                 <TableCell><Chip label={m.isActive ? '활성' : '삭제됨'} size="small" color={m.isActive ? 'success' : 'default'} /></TableCell>
                 <TableCell align="right">
                   <IconButton size="small" onClick={() => { setEditMenu(m); setFormOpen(true); }}><EditIcon fontSize="small" /></IconButton>

@@ -19,11 +19,27 @@ export function CustomerLayout({ children }: { children: ReactNode }) {
   const value = path.includes('/cart') ? 1 : path.includes('/history') ? 2 : 0;
 
   return (
-    <Box sx={{ pb: 7, minHeight: '100vh', bgcolor: 'grey.50' }}>
+    <Box sx={{ pb: '90px', minHeight: '100vh', bgcolor: '#fbfbfd' }}>
       {children}
       <BottomNavigation
         value={value} showLabels
-        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000 }}
+        sx={{
+          position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000,
+          height: 72,
+          background: 'rgba(251,251,253,0.72)',
+          backdropFilter: 'saturate(180%) blur(20px)',
+          WebkitBackdropFilter: 'saturate(180%) blur(20px)',
+          borderTop: '1px solid rgba(0,0,0,0.06)',
+          '& .MuiBottomNavigationAction-root': {
+            color: '#86868b',
+            transition: 'color 0.2s ease',
+            '&.Mui-selected': { color: '#0071e3' },
+          },
+          '& .MuiBottomNavigationAction-label': {
+            fontSize: '0.65rem', fontWeight: 500, mt: 0.5,
+            '&.Mui-selected': { fontSize: '0.65rem' },
+          },
+        }}
       >
         <BottomNavigationAction
           label="메뉴" icon={<RestaurantMenuIcon />}
@@ -32,7 +48,7 @@ export function CustomerLayout({ children }: { children: ReactNode }) {
         />
         <BottomNavigationAction
           label="장바구니"
-          icon={<Badge badgeContent={itemCount} color="error"><ShoppingCartIcon /></Badge>}
+          icon={<Badge badgeContent={itemCount} color="error" sx={{ '& .MuiBadge-badge': { fontSize: 10, height: 18, minWidth: 18, bgcolor: '#ff3b30' } }}><ShoppingCartIcon /></Badge>}
           onClick={() => navigate({ to: `/table/${tableNo}/cart` })}
           data-testid="nav-cart"
         />

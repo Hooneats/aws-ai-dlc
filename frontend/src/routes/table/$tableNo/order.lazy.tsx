@@ -30,9 +30,9 @@ function OrderPage() {
   if (items.length === 0) {
     return (
       <CustomerLayout>
-        <Box sx={{ p: 4, textAlign: 'center' }}>
-          <Typography color="text.secondary">장바구니가 비어있습니다</Typography>
-          <Button sx={{ mt: 2 }} onClick={() => navigate({ to: `/table/${tableNo}/menu` })}>메뉴로 돌아가기</Button>
+        <Box sx={{ p: 4, textAlign: 'center', pt: 10 }}>
+          <Typography sx={{ color: '#86868b', fontSize: '1rem' }}>장바구니가 비어있습니다</Typography>
+          <Button sx={{ mt: 2, color: '#0071e3' }} onClick={() => navigate({ to: `/table/${tableNo}/menu` })}>메뉴로 돌아가기</Button>
         </Box>
       </CustomerLayout>
     );
@@ -41,26 +41,33 @@ function OrderPage() {
   return (
     <CustomerLayout>
       <Box sx={{ p: 2, maxWidth: 600, mx: 'auto' }}>
-        <Typography variant="h6" gutterBottom>주문 확인</Typography>
-        <Paper sx={{ p: 2 }}>
+        <Typography variant="h5" sx={{ mb: 2, fontSize: '1.5rem' }}>주문 확인</Typography>
+        <Paper sx={{ p: 2.5, border: '1px solid rgba(0,0,0,0.06)' }}>
           {items.map((i) => (
-            <Box key={i.menuId} sx={{ display: 'flex', justifyContent: 'space-between', py: 0.5 }}>
+            <Box key={i.menuId} sx={{ display: 'flex', justifyContent: 'space-between', py: 0.75 }}>
               <Typography variant="body2">{i.menuName} × {i.quantity}</Typography>
-              <Typography variant="body2">{(i.finalPrice * i.quantity).toLocaleString()}원</Typography>
+              <Typography variant="body2" sx={{ color: '#86868b' }}>{(i.finalPrice * i.quantity).toLocaleString()}원</Typography>
             </Box>
           ))}
-          <Box sx={{ borderTop: 1, borderColor: 'divider', mt: 1, pt: 1, display: 'flex', justifyContent: 'space-between' }}>
-            <Typography fontWeight="bold">합계</Typography>
-            <Typography fontWeight="bold">{totalAmount.toLocaleString()}원</Typography>
+          <Box sx={{ borderTop: '1px solid rgba(0,0,0,0.06)', mt: 1.5, pt: 1.5, display: 'flex', justifyContent: 'space-between' }}>
+            <Typography fontWeight={700}>합계</Typography>
+            <Typography fontWeight={700} sx={{ fontSize: '1.1rem' }}>{totalAmount.toLocaleString()}원</Typography>
           </Box>
         </Paper>
-        <TextField fullWidth label="요청사항 (선택)" value={memo} onChange={(e) => setMemo(e.target.value)} margin="normal" placeholder="예: 덜 맵게, 얼음 빼주세요" data-testid="order-memo" />
-        <Button variant="contained" fullWidth sx={{ mt: 2 }} onClick={handleOrder} disabled={loading} data-testid="order-confirm">
+        <TextField
+          fullWidth label="요청사항 (선택)" value={memo} onChange={(e) => setMemo(e.target.value)}
+          margin="normal" placeholder="예: 덜 맵게, 얼음 빼주세요" data-testid="order-memo"
+          sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3 } }}
+        />
+        <Button
+          variant="contained" fullWidth onClick={handleOrder} disabled={loading} data-testid="order-confirm"
+          sx={{ mt: 2, py: 1.5, bgcolor: '#0071e3', fontSize: '1rem', fontWeight: 600, '&:hover': { bgcolor: '#0077ed' }, '&.Mui-disabled': { bgcolor: '#d2d2d7' } }}
+        >
           {loading ? '주문 중...' : `${totalAmount.toLocaleString()}원 주문하기`}
         </Button>
       </Box>
       <Snackbar open={!!error} autoHideDuration={3000} onClose={() => setError('')} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <Alert severity="error" variant="filled">{error}</Alert>
+        <Alert severity="error" variant="filled" sx={{ borderRadius: 980 }}>{error}</Alert>
       </Snackbar>
     </CustomerLayout>
   );

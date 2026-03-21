@@ -33,7 +33,7 @@ export class MenuService {
   }
 
   async findByIds(menuIds: number[]): Promise<Menu[]> {
-    return this.repo.find({ where: { id: In(menuIds) } });
+    return this.repo.find({ where: { id: In(menuIds) }, relations: ['category'] });
   }
 
   async findAll(storeId: number, activeOnly = true): Promise<Menu[]> {

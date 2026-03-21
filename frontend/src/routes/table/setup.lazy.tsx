@@ -23,15 +23,18 @@ function TableSetupPage() {
     } catch { setError('로그인에 실패했습니다. 매장 코드와 테이블 번호를 확인해주세요.'); }
   };
 
+  const inputSx = { '& .MuiOutlinedInput-root': { borderRadius: 3, bgcolor: 'rgba(0,0,0,0.03)', '& fieldset': { borderColor: 'transparent' }, '&:hover fieldset': { borderColor: 'rgba(0,0,0,0.1)' }, '&.Mui-focused fieldset': { borderColor: '#0071e3' } } };
+
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2 }}>
-      <Paper sx={{ p: 4, maxWidth: 400, width: '100%' }}>
-        <Typography variant="h5" gutterBottom textAlign="center">테이블 설정</Typography>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2, bgcolor: '#fbfbfd' }}>
+      <Paper sx={{ p: 5, maxWidth: 400, width: '100%', border: '1px solid rgba(0,0,0,0.06)' }}>
+        <Typography variant="h5" sx={{ textAlign: 'center', mb: 0.5, fontSize: '1.6rem' }}>테이블 주문</Typography>
+        <Typography sx={{ textAlign: 'center', color: '#86868b', mb: 4, fontSize: '0.9rem' }}>매장 코드와 테이블 번호를 입력해주세요</Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField fullWidth label="매장 코드" margin="normal" {...register('storeCode', { required: '매장 코드를 입력해주세요' })} error={!!errors.storeCode} helperText={errors.storeCode?.message} data-testid="table-setup-store-code" />
-          <TextField fullWidth label="테이블 번호" type="number" margin="normal" {...register('tableNo', { required: '테이블 번호를 입력해주세요', min: { value: 1, message: '1 이상 입력' } })} error={!!errors.tableNo} helperText={errors.tableNo?.message} data-testid="table-setup-table-no" />
-          {error && <Typography color="error" variant="body2" sx={{ mt: 1 }}>{error}</Typography>}
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }} data-testid="table-setup-submit">시작하기</Button>
+          <TextField fullWidth label="매장 코드" margin="normal" {...register('storeCode', { required: '매장 코드를 입력해주세요' })} error={!!errors.storeCode} helperText={errors.storeCode?.message} data-testid="table-setup-store-code" sx={inputSx} />
+          <TextField fullWidth label="테이블 번호" type="number" margin="normal" {...register('tableNo', { required: '테이블 번호를 입력해주세요', min: { value: 1, message: '1 이상 입력' } })} error={!!errors.tableNo} helperText={errors.tableNo?.message} data-testid="table-setup-table-no" sx={inputSx} />
+          {error && <Typography color="error" variant="body2" sx={{ mt: 1, textAlign: 'center' }}>{error}</Typography>}
+          <Button type="submit" variant="contained" fullWidth data-testid="table-setup-submit" sx={{ mt: 3, py: 1.5, bgcolor: '#0071e3', fontSize: '1rem', fontWeight: 600, '&:hover': { bgcolor: '#0077ed' } }}>시작하기</Button>
         </form>
       </Paper>
     </Box>

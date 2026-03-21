@@ -4,7 +4,7 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 
 interface Props { src: string | null; alt: string; height?: number; }
 
-export function ImageWithFallback({ src, alt, height = 140 }: Props) {
+export function ImageWithFallback({ src, alt, height = 180 }: Props) {
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
@@ -12,19 +12,26 @@ export function ImageWithFallback({ src, alt, height = 140 }: Props) {
 
   if (!fullSrc || error) {
     return (
-      <Box sx={{ height, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.100' }}>
-        <RestaurantIcon sx={{ fontSize: 48, color: 'grey.400' }} />
+      <Box sx={{
+        height, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        bgcolor: '#f5f5f7', borderRadius: '20px 20px 0 0',
+      }}>
+        <RestaurantIcon sx={{ fontSize: 40, color: '#d2d2d7' }} />
       </Box>
     );
   }
 
   return (
-    <Box sx={{ height, position: 'relative', overflow: 'hidden' }}>
-      {!loaded && <Skeleton variant="rectangular" height={height} />}
+    <Box sx={{ height, position: 'relative', overflow: 'hidden', borderRadius: '20px 20px 0 0' }}>
+      {!loaded && <Skeleton variant="rectangular" height={height} sx={{ borderRadius: 0 }} />}
       <img
         src={fullSrc} alt={alt} loading="lazy"
         onLoad={() => setLoaded(true)} onError={() => setError(true)}
-        style={{ width: '100%', height, objectFit: 'cover', display: loaded ? 'block' : 'none' }}
+        style={{
+          width: '100%', height, objectFit: 'cover',
+          display: loaded ? 'block' : 'none',
+          transition: 'transform 0.3s ease',
+        }}
       />
     </Box>
   );

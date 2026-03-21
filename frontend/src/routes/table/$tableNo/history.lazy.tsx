@@ -22,11 +22,11 @@ function OrderHistoryPage() {
   return (
     <CustomerLayout>
       <Box sx={{ p: 2, maxWidth: 600, mx: 'auto' }}>
-        <Typography variant="h6" gutterBottom>주문 내역</Typography>
+        <Typography variant="h5" sx={{ mb: 2, fontSize: '1.5rem' }}>주문 내역</Typography>
         {isLoading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}><CircularProgress /></Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', pt: 6 }}><CircularProgress size={32} sx={{ color: '#86868b' }} /></Box>
         ) : visibleOrders.length === 0 ? (
-          <Typography color="text.secondary" sx={{ py: 4, textAlign: 'center' }}>주문 내역이 없습니다</Typography>
+          <Typography sx={{ py: 8, textAlign: 'center', color: '#86868b', fontSize: '1rem' }}>주문 내역이 없습니다</Typography>
         ) : (
           visibleOrders.map((order) => <OrderCard key={order.id} order={order} isCustomer />)
         )}
